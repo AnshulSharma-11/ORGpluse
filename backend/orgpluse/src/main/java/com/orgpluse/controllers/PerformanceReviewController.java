@@ -1,0 +1,74 @@
+package com.orgpluse.controllers;
+
+import com.orgpluse.entities.PerformanceReview;
+import com.orgpluse.response_wrapper.ResponseWrapper;
+import com.orgpluse.services.PerformanceReviewService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+
+@RestController
+@RequestMapping("/api/v1/admin")
+@CrossOrigin("*")
+public class PerformanceReviewController {
+
+    @Autowired
+    private PerformanceReviewService reviewService;
+
+    // POST /api/v1/admin/performance
+    @PostMapping("/performance")
+    public ResponseEntity<ResponseWrapper> addReview(@RequestBody PerformanceReview review) {
+        return reviewService.addReview(review);
+    }
+
+    // PUT /api/v1/admin/performance/{id}
+    @PutMapping("/performance/{id}")
+    public ResponseEntity<ResponseWrapper> updateReview(@PathVariable Long id,
+                                                         @RequestBody PerformanceReview review) {
+        return reviewService.updateReview(id, review);
+    }
+
+    // DELETE /api/v1/admin/performance/{id}
+    @DeleteMapping("/performance/{id}")
+    public ResponseEntity<ResponseWrapper> deleteReview(@PathVariable Long id) {
+        return reviewService.deleteReview(id);
+    }
+
+    // GET /api/v1/admin/performance/{id}
+    @GetMapping("/performance/{id}")
+    public ResponseEntity<ResponseWrapper> getReviewById(@PathVariable Long id) {
+        return reviewService.getReviewById(id);
+    }
+
+    // GET /api/v1/admin/performance?sortBy=&sortDirection=
+    @GetMapping("/performance")
+    public ResponseEntity<ResponseWrapper> getAllReviews(
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortDirection) {
+        return reviewService.getAllReviews(sortBy, sortDirection);
+    }
+
+    // GET /api/v1/admin/performance/filter?employeeId=&reviewerId=&status=
+    //                                     &cycleName=&startDate=&endDate=
+    //                                     &sortBy=&sortDirection=
+    @GetMapping("/performance/filter")
+    public ResponseEntity<ResponseWrapper> filterReviews(
+            @RequestParam(required = false) Long employeeId,
+            @RequestParam(required = false) Long reviewerId,
+            @RequestParam(required = false) String status,
+            @RequestParam(required = false) String cycleName,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+            @RequestParam(required = false)
+            @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortDirection) {
+        return reviewService.filterReviews(employeeId, reviewerId, status,
+                cycleName, startDate, endDate, sortBy, sortDirection);
+    }
+
+}

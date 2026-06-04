@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 
 export default function DisplayHelp({
   helpValue, employees, onAssign, onStatusChange, onResolve, onDelete, onFilter, FilterBar,
 }) {
-  const [assigningId, setAssigningId] = useState(null);
-  const [assigneeId, setAssigneeId] = useState('');
+  let [assigningId, setAssigningId] = useState(null);
+  let [assigneeId, setAssigneeId] = useState('');
 
   return (
     <div className="hrms-content">

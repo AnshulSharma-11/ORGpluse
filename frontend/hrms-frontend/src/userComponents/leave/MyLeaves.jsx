@@ -4,13 +4,13 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 
 export default function MyLeaves() {
-  const { employeeId } = useParams();
-  const [leaves, setLeaves] = useState(null);
+  let { employeeId } = useParams();
+  let [leaves, setLeaves] = useState(null);
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/leaves/filter?employeeId=${employeeId}`)
@@ -25,8 +25,8 @@ export default function MyLeaves() {
     </div>
   );
 
-  const approvedCount = leaves.filter(l => l.status === 'APPROVED').length;
-  const remaining = 20 - approvedCount;
+  let approvedCount = leaves.filter(l => l.status === 'APPROVED').length;
+  let remaining = 20 - approvedCount;
 
   return (
     <div>

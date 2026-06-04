@@ -1,7 +1,7 @@
 import React from 'react';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 

@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayEmployees from './DisplayEmployees';
 
 function FilterBar({ onFilter, departments, designations, branches }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -61,12 +61,12 @@ function FilterBar({ onFilter, departments, designations, branches }) {
 }
 
 export default function FetchEmployees() {
-  const [employees, setEmployees] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
-  const [departments, setDepartments] = useState([]);
-  const [designations, setDesignations] = useState([]);
-  const [branches, setBranches] = useState([]);
+  let [employees, setEmployees] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
+  let [departments, setDepartments] = useState([]);
+  let [designations, setDesignations] = useState([]);
+  let [branches, setBranches] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -92,8 +92,8 @@ export default function FetchEmployees() {
         if (filters.gender)        url += `gender=${filters.gender}&`;
         if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setEmployees(obj.data ?? []);
       } catch {
         setEmployees([]);
@@ -106,7 +106,7 @@ export default function FetchEmployees() {
   async function deleteEmployee(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/employees/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/employees/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Employee deleted'); setIsDeleted(true); }
       else toast.error('Could not delete employee');
     } catch {

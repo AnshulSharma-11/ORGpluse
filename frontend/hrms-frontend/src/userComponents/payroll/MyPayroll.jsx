@@ -4,18 +4,18 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 
-const MONTH_NAMES = [
+let MONTH_NAMES = [
   '', 'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
 export default function MyPayroll() {
-  const { employeeId } = useParams();
-  const [payrolls, setPayrolls] = useState(null);
+  let { employeeId } = useParams();
+  let [payrolls, setPayrolls] = useState(null);
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/payroll/filter?processedBy=${employeeId}`)
@@ -47,7 +47,7 @@ export default function MyPayroll() {
             let payslipRows = null;
             if (p.payslipData) {
               try {
-                const parsed = JSON.parse(p.payslipData);
+                let parsed = JSON.parse(p.payslipData);
                 payslipRows = Object.entries(parsed);
               } catch {
                 payslipRows = null;

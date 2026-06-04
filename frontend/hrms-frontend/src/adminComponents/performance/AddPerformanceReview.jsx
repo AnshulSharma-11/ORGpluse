@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddPerformanceReview() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
+  let { register, handleSubmit, formState: { errors } } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/employees`)
@@ -18,7 +18,7 @@ export default function AddPerformanceReview() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         cycleName: data.cycleName,
         startDate: data.startDate,
         endDate: data.endDate,
@@ -29,7 +29,7 @@ export default function AddPerformanceReview() {
         employee: data.employeeId ? { id: parseInt(data.employeeId, 10) } : undefined,
         reviewer: data.reviewerId ? { id: parseInt(data.reviewerId, 10) } : undefined,
       };
-      const res = await fetch(`${ADMIN_BASE}/performance`, {
+      let res = await fetch(`${ADMIN_BASE}/performance`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

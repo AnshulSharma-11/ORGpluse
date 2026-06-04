@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayHelp from './DisplayHelp';
 
 function FilterBar({ onFilter, departments }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -60,11 +60,11 @@ function FilterBar({ onFilter, departments }) {
 }
 
 export default function FetchHelp() {
-  const [helpItems, setHelpItems] = useState(null);
-  const [isRefresh, setIsRefresh] = useState(false);
-  const [filters, setFilters] = useState({});
-  const [employees, setEmployees] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  let [helpItems, setHelpItems] = useState(null);
+  let [isRefresh, setIsRefresh] = useState(false);
+  let [filters, setFilters] = useState({});
+  let [employees, setEmployees] = useState([]);
+  let [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -85,8 +85,8 @@ export default function FetchHelp() {
         if (filters.status)       url += `status=${filters.status}&`;
         if (filters.priority)     url += `priority=${filters.priority}&`;
         if (filters.employeeId)   url += `employeeId=${filters.employeeId}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setHelpItems(obj.data ?? []);
       } catch {
         setHelpItems([]);
@@ -98,7 +98,7 @@ export default function FetchHelp() {
 
   async function assignHelp(help, assigneeId) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
+      let res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...help, assignedTo: { id: parseInt(assigneeId, 10) } }),
@@ -110,7 +110,7 @@ export default function FetchHelp() {
 
   async function updateStatus(help, newStatus) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
+      let res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...help, status: newStatus }),
@@ -121,10 +121,10 @@ export default function FetchHelp() {
   }
 
   async function resolveHelp(help) {
-    const resolutionNotes = window.prompt('Enter resolution notes:');
+    let resolutionNotes = window.prompt('Enter resolution notes:');
     if (resolutionNotes === null) return; // cancelled
     try {
-      const res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
+      let res = await fetch(`${ADMIN_BASE}/help/${help.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -141,7 +141,7 @@ export default function FetchHelp() {
 
   async function deleteHelp(id) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/help/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/help/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Help request deleted'); setIsRefresh(v => !v); }
       else toast.error('Failed to delete help request');
     } catch { toast.error('Failed to delete help request'); }

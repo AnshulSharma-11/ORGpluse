@@ -2,10 +2,10 @@ import React from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 
 export default function UserNavbar() {
-  const { employeeId } = useParams();
-  const base = `/employee/${employeeId}`;
+  let { employeeId } = useParams();
+  let base = `/employee/${employeeId}`;
 
-  const linkClass = ({ isActive }) =>
+  let linkClass = ({ isActive }) =>
     isActive ? 'active' : '';
 
   return (

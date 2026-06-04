@@ -4,8 +4,8 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function MyAuditLog() {
-  const { employeeId } = useParams();
-  const [logs, setLogs] = useState(null);
+  let { employeeId } = useParams();
+  let [logs, setLogs] = useState(null);
 
   useEffect(() => {
     fetch(

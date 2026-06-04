@@ -3,23 +3,23 @@ import { Link, useParams } from 'react-router-dom';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function EmployeeDashboard() {
-  const { employeeId } = useParams();
-  const [emp, setEmp] = useState(null);
-  const [leaves, setLeaves] = useState([]);
-  const [attendance, setAttendance] = useState([]);
-  const [help, setHelp] = useState([]);
-  const [loading, setLoading] = useState(true);
+  let { employeeId } = useParams();
+  let [emp, setEmp] = useState(null);
+  let [leaves, setLeaves] = useState([]);
+  let [attendance, setAttendance] = useState([]);
+  let [help, setHelp] = useState([]);
+  let [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function load() {
       try {
-        const [empRes, leavesRes, attRes, helpRes] = await Promise.all([
+        let [empRes, leavesRes, attRes, helpRes] = await Promise.all([
           fetch(`${ADMIN_BASE}/employees/${employeeId}`),
           fetch(`${ADMIN_BASE}/leaves/filter?employeeId=${employeeId}`),
           fetch(`${ADMIN_BASE}/time-records/filter?employeeId=${employeeId}`),
           fetch(`${ADMIN_BASE}/help/filter?employeeId=${employeeId}`),
         ]);
-        const [empData, leavesData, attData, helpData] = await Promise.all([
+        let [empData, leavesData, attData, helpData] = await Promise.all([
           empRes.json(), leavesRes.json(), attRes.json(), helpRes.json(),
         ]);
         setEmp(empData.data);
@@ -41,26 +41,26 @@ export default function EmployeeDashboard() {
     </div>
   );
 
-  const now = new Date();
-  const thisMonth = now.getMonth();
-  const thisYear = now.getFullYear();
+  let now = new Date();
+  let thisMonth = now.getMonth();
+  let thisYear = now.getFullYear();
 
-  const approvedLeaves = leaves.filter(l => l.status === 'APPROVED').length;
-  const leavesRemaining = 20 - approvedLeaves;
-  const daysPresent = attendance.filter(a => {
-    const d = new Date(a.date);
+  let approvedLeaves = leaves.filter(l => l.status === 'APPROVED').length;
+  let leavesRemaining = 20 - approvedLeaves;
+  let daysPresent = attendance.filter(a => {
+    let d = new Date(a.date);
     return a.status === 'PRESENT' && d.getMonth() === thisMonth && d.getFullYear() === thisYear;
   }).length;
-  const openTickets = help.filter(h => h.status === 'OPEN').length;
-  const pendingLeaves = leaves.filter(l => l.status === 'PENDING').length;
+  let openTickets = help.filter(h => h.status === 'OPEN').length;
+  let pendingLeaves = leaves.filter(l => l.status === 'PENDING').length;
 
-  const initials = emp
+  let initials = emp
     ? `${emp.firstName?.[0] ?? ''}${emp.lastName?.[0] ?? ''}`.toUpperCase()
     : '?';
 
-  const base = `/employee/${employeeId}`;
+  let base = `/employee/${employeeId}`;
 
-  const stats = [
+  let stats = [
     {
       label: 'Leaves Remaining',
       value: leavesRemaining,
@@ -91,7 +91,7 @@ export default function EmployeeDashboard() {
     },
   ];
 
-  const quickActions = [
+  let quickActions = [
     { label: 'Apply Leave',   to: `${base}/leaves/apply`,  cls: 'qc-teal',   icon: 'bi-calendar-plus' },
     { label: 'Raise Help',    to: `${base}/help/raise`,    cls: 'qc-indigo', icon: 'bi-headset' },
     { label: 'View Payslip',  to: `${base}/payroll`,       cls: 'qc-green',  icon: 'bi-wallet2' },

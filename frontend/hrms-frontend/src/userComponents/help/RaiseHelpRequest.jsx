@@ -5,12 +5,12 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function RaiseHelpRequest() {
-  const { employeeId } = useParams();
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
-  const nav = useNavigate();
-  const [departments, setDepartments] = useState([]);
+  let { employeeId } = useParams();
+  let { register, handleSubmit, formState: { errors }, watch } = useForm();
+  let nav = useNavigate();
+  let [departments, setDepartments] = useState([]);
 
-  const watchedRequestType = watch('requestType');
+  let watchedRequestType = watch('requestType');
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/departments`)
@@ -21,7 +21,7 @@ export default function RaiseHelpRequest() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         requestType: data.requestType,
         subject: data.subject,
         description: data.description,
@@ -36,7 +36,7 @@ export default function RaiseHelpRequest() {
         }),
       };
 
-      const res = await fetch(`${ADMIN_BASE}/help`, {
+      let res = await fetch(`${ADMIN_BASE}/help`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

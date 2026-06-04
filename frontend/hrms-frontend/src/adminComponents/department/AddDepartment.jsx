@@ -5,10 +5,10 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddDepartment() {
-  const { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { isActive: true } });
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  let { register, handleSubmit, formState: { errors } } = useForm({ defaultValues: { isActive: true } });
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
+  let [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -22,14 +22,14 @@ export default function AddDepartment() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         name: data.name,
         description: data.description,
         isActive: data.isActive === true || data.isActive === 'true',
         ...(data.managerId && { manager: { id: parseInt(data.managerId, 10) } }),
         ...(data.parentDepartmentId && { parentDepartment: { id: parseInt(data.parentDepartmentId, 10) } }),
       };
-      const res = await fetch(`${ADMIN_BASE}/departments`, {
+      let res = await fetch(`${ADMIN_BASE}/departments`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

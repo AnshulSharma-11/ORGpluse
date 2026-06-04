@@ -5,15 +5,15 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 
 export default function MyAttendance() {
-  const { employeeId } = useParams();
-  const [records, setRecords] = useState(null);
-  const [filters, setFilters] = useState({});
-  const { register, handleSubmit, reset } = useForm({
+  let { employeeId } = useParams();
+  let [records, setRecords] = useState(null);
+  let [filters, setFilters] = useState({});
+  let { register, handleSubmit, reset } = useForm({
     defaultValues: {
       month: new Date().getMonth() + 1,
       year: new Date().getFullYear(),
@@ -26,12 +26,12 @@ export default function MyAttendance() {
         let url = `${ADMIN_BASE}/time-records/filter?employeeId=${employeeId}&`;
         if (filters.month && filters.year) {
           // Build date range for the given month/year
-          const m = String(filters.month).padStart(2, '0');
-          const y = filters.year;
+          let m = String(filters.month).padStart(2, '0');
+          let y = filters.year;
           url += `dateFrom=${y}-${m}-01&dateTo=${y}-${m}-31&`;
         }
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setRecords(obj.data ?? []);
       } catch {
         setRecords([]);
@@ -41,8 +41,8 @@ export default function MyAttendance() {
     load();
   }, [employeeId, filters]);
 
-  const totalPresent = records?.filter(r => r.status === 'PRESENT').length ?? 0;
-  const totalHours = records?.reduce((sum, r) => sum + (r.hoursWorked ?? 0), 0).toFixed(1) ?? 0;
+  let totalPresent = records?.filter(r => r.status === 'PRESENT').length ?? 0;
+  let totalHours = records?.reduce((sum, r) => sum + (r.hoursWorked ?? 0), 0).toFixed(1) ?? 0;
 
   return (
     <div>

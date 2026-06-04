@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayTimeRecords from './DisplayTimeRecords';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input className="form-control" style={{ maxWidth: 180 }} placeholder="Employee ID" {...register('employeeId')} />
@@ -29,9 +29,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchTimeRecords() {
-  const [records, setRecords] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [records, setRecords] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -42,8 +42,8 @@ export default function FetchTimeRecords() {
         if (filters.dateFrom)      url += `dateFrom=${filters.dateFrom}&`;
         if (filters.dateTo)        url += `dateTo=${filters.dateTo}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setRecords(obj.data ?? []);
       } catch {
         setRecords([]);
@@ -56,7 +56,7 @@ export default function FetchTimeRecords() {
   async function deleteRecord(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/time-records/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/time-records/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Record deleted'); setIsDeleted(true); }
       else toast.error('Could not delete record');
     } catch {

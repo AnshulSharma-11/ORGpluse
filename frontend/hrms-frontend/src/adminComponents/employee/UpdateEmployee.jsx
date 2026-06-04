@@ -5,15 +5,15 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateEmployee() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
-  const nav = useNavigate();
-  const [departments, setDepartments] = useState([]);
-  const [designations, setDesignations] = useState([]);
-  const [branches, setBranches] = useState([]);
-  const [managers, setManagers] = useState([]);
+  let { id } = useParams();
+  let { register, handleSubmit, formState: { errors }, reset, watch } = useForm();
+  let nav = useNavigate();
+  let [departments, setDepartments] = useState([]);
+  let [designations, setDesignations] = useState([]);
+  let [branches, setBranches] = useState([]);
+  let [managers, setManagers] = useState([]);
 
-  const selectedDeptId = watch('department.id');
+  let selectedDeptId = watch('department.id');
 
   useEffect(() => {
     Promise.all([
@@ -25,7 +25,7 @@ export default function UpdateEmployee() {
       setDepartments(dRes.data ?? []);
       setDesignations(desRes.data ?? []);
       setBranches(bRes.data ?? []);
-      const e = empRes.data;
+      let e = empRes.data;
       reset({
         employeeCode: e.employeeCode,
         firstName: e.firstName,
@@ -62,7 +62,7 @@ export default function UpdateEmployee() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         employeeCode: data.employeeCode,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -80,7 +80,7 @@ export default function UpdateEmployee() {
         branch: data['branch.id'] ? { id: parseInt(data['branch.id'], 10) } : undefined,
         manager: data['manager.id'] ? { id: parseInt(data['manager.id'], 10) } : undefined,
       };
-      const res = await fetch(`${ADMIN_BASE}/employees/${id}`, {
+      let res = await fetch(`${ADMIN_BASE}/employees/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

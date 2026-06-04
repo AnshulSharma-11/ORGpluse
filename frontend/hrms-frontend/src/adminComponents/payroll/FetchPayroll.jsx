@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayPayroll from './DisplayPayroll';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <select className="form-select" style={{ maxWidth: 130 }} {...register('month')}>
@@ -42,9 +42,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchPayroll() {
-  const [payrolls, setPayrolls] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [payrolls, setPayrolls] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -56,8 +56,8 @@ export default function FetchPayroll() {
         if (filters.processedBy)   url += `processedBy=${filters.processedBy}&`;
         if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setPayrolls(obj.data ?? []);
       } catch {
         setPayrolls([]);
@@ -70,7 +70,7 @@ export default function FetchPayroll() {
   async function deletePayroll(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/payroll/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/payroll/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Payroll run deleted'); setIsDeleted(true); }
       else toast.error('Could not delete payroll run');
     } catch { toast.error('Could not delete payroll run'); }

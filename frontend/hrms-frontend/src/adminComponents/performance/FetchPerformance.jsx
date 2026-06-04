@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayPerformance from './DisplayPerformance';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input className="form-control" style={{ maxWidth: 160 }} placeholder="Employee ID" {...register('employeeId')} />
@@ -36,9 +36,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchPerformance() {
-  const [reviews, setReviews] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [reviews, setReviews] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -52,8 +52,8 @@ export default function FetchPerformance() {
         if (filters.endDate)       url += `endDate=${filters.endDate}&`;
         if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setReviews(obj.data ?? []);
       } catch {
         setReviews([]);
@@ -66,7 +66,7 @@ export default function FetchPerformance() {
   async function deleteReview(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/performance/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/performance/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Review deleted'); setIsDeleted(true); }
       else toast.error('Could not delete review');
     } catch { toast.error('Could not delete review'); }

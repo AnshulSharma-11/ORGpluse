@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayLeaves from './DisplayLeaves';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input className="form-control" style={{ maxWidth: 180 }} placeholder="Employee ID" {...register('employeeId')} />
@@ -41,9 +41,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchLeaves() {
-  const [leaves, setLeaves] = useState(null);
-  const [isRefresh, setIsRefresh] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [leaves, setLeaves] = useState(null);
+  let [isRefresh, setIsRefresh] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -56,8 +56,8 @@ export default function FetchLeaves() {
         if (filters.endDate)       url += `endDate=${filters.endDate}&`;
         if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setLeaves(obj.data ?? []);
       } catch {
         setLeaves([]);
@@ -69,7 +69,7 @@ export default function FetchLeaves() {
 
   async function approveLeave(leave) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/leaves/${leave.id}`, {
+      let res = await fetch(`${ADMIN_BASE}/leaves/${leave.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...leave, status: 'APPROVED', approvedBy: { id: 1 } }),
@@ -81,7 +81,7 @@ export default function FetchLeaves() {
 
   async function rejectLeave(leave) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/leaves/${leave.id}`, {
+      let res = await fetch(`${ADMIN_BASE}/leaves/${leave.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...leave, status: 'REJECTED' }),
@@ -93,7 +93,7 @@ export default function FetchLeaves() {
 
   async function deleteLeave(id) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/leaves/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/leaves/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Leave deleted'); setIsRefresh(v => !v); }
       else toast.error('Failed to delete leave');
     } catch { toast.error('Failed to delete leave'); }

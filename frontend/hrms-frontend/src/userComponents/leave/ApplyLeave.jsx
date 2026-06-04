@@ -5,13 +5,13 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function ApplyLeave() {
-  const { employeeId } = useParams();
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const nav = useNavigate();
+  let { employeeId } = useParams();
+  let { register, handleSubmit, formState: { errors } } = useForm();
+  let nav = useNavigate();
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         leaveType: data.leaveType,
         startDate: data.startDate,
         endDate: data.endDate,
@@ -20,7 +20,7 @@ export default function ApplyLeave() {
         status: 'PENDING',
         employee: { id: parseInt(employeeId, 10) },
       };
-      const res = await fetch(`${ADMIN_BASE}/leaves`, {
+      let res = await fetch(`${ADMIN_BASE}/leaves`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

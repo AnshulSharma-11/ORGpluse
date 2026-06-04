@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 
 export default function AdminNavbar() {
-  const link = ({ isActive }) => isActive ? 'nav-link active' : 'nav-link';
+  let link = ({ isActive }) => isActive ? 'nav-link active' : 'nav-link';
 
   return (
     <div className="hrms-sidebar">

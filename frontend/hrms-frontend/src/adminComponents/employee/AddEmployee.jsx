@@ -5,14 +5,14 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddEmployee() {
-  const { register, handleSubmit, formState: { errors }, watch } = useForm();
-  const nav = useNavigate();
-  const [departments, setDepartments] = useState([]);
-  const [designations, setDesignations] = useState([]);
-  const [branches, setBranches] = useState([]);
-  const [managers, setManagers] = useState([]);
+  let { register, handleSubmit, formState: { errors }, watch } = useForm();
+  let nav = useNavigate();
+  let [departments, setDepartments] = useState([]);
+  let [designations, setDesignations] = useState([]);
+  let [branches, setBranches] = useState([]);
+  let [managers, setManagers] = useState([]);
 
-  const selectedDeptId = watch('department.id');
+  let selectedDeptId = watch('department.id');
 
   useEffect(() => {
     Promise.all([
@@ -36,7 +36,7 @@ export default function AddEmployee() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         employeeCode: data.employeeCode,
         firstName: data.firstName,
         lastName: data.lastName,
@@ -54,7 +54,7 @@ export default function AddEmployee() {
         branch: data['branch.id'] ? { id: parseInt(data['branch.id'], 10) } : undefined,
         manager: data['manager.id'] ? { id: parseInt(data['manager.id'], 10) } : undefined,
       };
-      const res = await fetch(`${ADMIN_BASE}/employees`, {
+      let res = await fetch(`${ADMIN_BASE}/employees`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

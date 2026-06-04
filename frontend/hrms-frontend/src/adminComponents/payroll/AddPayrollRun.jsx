@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddPayrollRun() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
+  let { register, handleSubmit, formState: { errors } } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/employees`)
@@ -18,7 +18,7 @@ export default function AddPayrollRun() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         month: parseInt(data.month, 10),
         year: parseInt(data.year, 10),
         runDate: data.runDate,
@@ -26,7 +26,7 @@ export default function AddPayrollRun() {
         payslipData: data.payslipData,
         processedBy: data.processedById ? { id: parseInt(data.processedById, 10) } : undefined,
       };
-      const res = await fetch(`${ADMIN_BASE}/payroll`, {
+      let res = await fetch(`${ADMIN_BASE}/payroll`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

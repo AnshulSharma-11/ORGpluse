@@ -43,7 +43,7 @@ import MyPayroll from './userComponents/payroll/MyPayroll';
 import MyAttendance from './userComponents/attendance/MyAttendance';
 import MyAuditLog from './userComponents/auditlog/MyAuditLog';
 
-const router = createBrowserRouter([
+let router = createBrowserRouter([
   {
     path: '/admin',
     element: <AdminApp />,

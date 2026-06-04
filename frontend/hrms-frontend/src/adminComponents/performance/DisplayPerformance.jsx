@@ -2,15 +2,15 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 
 function StarRating({ rating }) {
   if (rating == null) return <span className="text-muted">—</span>;
-  const full = Math.floor(rating);
-  const half = rating - full >= 0.5;
-  const empty = 5 - full - (half ? 1 : 0);
+  let full = Math.floor(rating);
+  let half = rating - full >= 0.5;
+  let empty = 5 - full - (half ? 1 : 0);
   return (
     <span style={{ color: '#f59e0b', fontSize: '0.9rem' }}>
       {'★'.repeat(full)}

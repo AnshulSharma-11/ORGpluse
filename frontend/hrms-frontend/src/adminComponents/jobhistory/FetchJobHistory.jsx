@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayJobHistory from './DisplayJobHistory';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input className="form-control" style={{ maxWidth: 180 }} placeholder="Employee ID" {...register('employeeId')} />
@@ -27,9 +27,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchJobHistory() {
-  const [history, setHistory] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [history, setHistory] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -40,8 +40,8 @@ export default function FetchJobHistory() {
         if (filters.effectiveDateFrom) url += `effectiveDateFrom=${filters.effectiveDateFrom}&`;
         if (filters.effectiveDateTo)  url += `effectiveDateTo=${filters.effectiveDateTo}&`;
         if (filters.sortDirection)    url += `sortDirection=${filters.sortDirection}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setHistory(obj.data ?? []);
       } catch {
         setHistory([]);
@@ -54,7 +54,7 @@ export default function FetchJobHistory() {
   async function deleteRecord(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/job-history/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/job-history/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Record deleted'); setIsDeleted(true); }
       else toast.error('Could not delete record');
     } catch { toast.error('Could not delete record'); }

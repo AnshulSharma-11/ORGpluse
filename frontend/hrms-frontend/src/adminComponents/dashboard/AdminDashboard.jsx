@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState(null);
+  let [stats, setStats] = useState(null);
 
   useEffect(() => {
     async function load() {
       try {
-        const [employees, departments, branches, payrolls] = await Promise.all([
+        let [employees, departments, branches, payrolls] = await Promise.all([
           fetch(`${ADMIN_BASE}/employees`).then(r => r.json()),
           fetch(`${ADMIN_BASE}/departments`).then(r => r.json()),
           fetch(`${ADMIN_BASE}/branches`).then(r => r.json()),
@@ -27,7 +27,7 @@ export default function AdminDashboard() {
     load();
   }, []);
 
-  const statCards = [
+  let statCards = [
     {
       label: 'Total Employees',
       value: stats?.employees ?? '—',
@@ -58,7 +58,7 @@ export default function AdminDashboard() {
     },
   ];
 
-  const quickCards = [
+  let quickCards = [
     { label: 'Employees',    icon: 'bi-people',              cls: 'qc-blue',   to: '/admin/employees' },
     { label: 'Departments',  icon: 'bi-building',            cls: 'qc-green',  to: '/admin/departments' },
     { label: 'Branches',     icon: 'bi-diagram-3',           cls: 'qc-yellow', to: '/admin/branches' },

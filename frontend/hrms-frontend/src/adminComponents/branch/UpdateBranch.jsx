@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateBranch() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const nav = useNavigate();
+  let { id } = useParams();
+  let { register, handleSubmit, formState: { errors }, reset } = useForm();
+  let nav = useNavigate();
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/branches/${id}`)
@@ -18,7 +18,7 @@ export default function UpdateBranch() {
 
   async function onSubmit(data) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/branches/${id}`, {
+      let res = await fetch(`${ADMIN_BASE}/branches/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function StatusBadge({ value }) {
-  const cls = value ? `status-badge badge-${value.toLowerCase().replace(/ /g, '_')}` : '';
+  let cls = value ? `status-badge badge-${value.toLowerCase().replace(/ /g, '_')}` : '';
   return <span className={cls}>{value}</span>;
 }
 

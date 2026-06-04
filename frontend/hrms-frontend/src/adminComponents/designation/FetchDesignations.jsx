@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayDesignations from './DisplayDesignations';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -43,9 +43,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchDesignations() {
-  const [designations, setDesignations] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [designations, setDesignations] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -62,8 +62,8 @@ export default function FetchDesignations() {
           if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
           if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
         }
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setDesignations(obj.data ?? []);
       } catch {
         setDesignations([]);
@@ -76,7 +76,7 @@ export default function FetchDesignations() {
   async function deleteDesignation(id) {
     setIsDeleted(false);
     try {
-      const res = await fetch(`${ADMIN_BASE}/designations/${id}`, { method: 'DELETE' });
+      let res = await fetch(`${ADMIN_BASE}/designations/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Designation deleted'); setIsDeleted(true); }
       else toast.error('Could not delete designation');
     } catch {

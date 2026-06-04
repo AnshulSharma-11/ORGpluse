@@ -5,12 +5,12 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddBranch() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const nav = useNavigate();
+  let { register, handleSubmit, formState: { errors } } = useForm();
+  let nav = useNavigate();
 
   async function onSubmit(data) {
     try {
-      const res = await fetch(`${ADMIN_BASE}/branches`, {
+      let res = await fetch(`${ADMIN_BASE}/branches`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),

@@ -5,11 +5,11 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateDepartment() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
-  const [departments, setDepartments] = useState([]);
+  let { id } = useParams();
+  let { register, handleSubmit, formState: { errors }, reset } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
+  let [departments, setDepartments] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -19,7 +19,7 @@ export default function UpdateDepartment() {
     ]).then(([deptRes, empRes, allDeptRes]) => {
       setEmployees(empRes.data ?? []);
       setDepartments((allDeptRes.data ?? []).filter(d => d.id !== parseInt(id, 10)));
-      const d = deptRes.data;
+      let d = deptRes.data;
       reset({
         name: d.name,
         description: d.description,
@@ -32,14 +32,14 @@ export default function UpdateDepartment() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         name: data.name,
         description: data.description,
         isActive: data.isActive === true || data.isActive === 'true',
         ...(data.managerId && { manager: { id: parseInt(data.managerId, 10) } }),
         ...(data.parentDepartmentId && { parentDepartment: { id: parseInt(data.parentDepartmentId, 10) } }),
       };
-      const res = await fetch(`${ADMIN_BASE}/departments/${id}`, {
+      let res = await fetch(`${ADMIN_BASE}/departments/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

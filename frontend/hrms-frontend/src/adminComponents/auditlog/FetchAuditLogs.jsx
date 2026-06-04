@@ -5,7 +5,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayAuditLogs from './DisplayAuditLogs';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -51,8 +51,8 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchAuditLogs() {
-  const [logs, setLogs] = useState(null);
-  const [filters, setFilters] = useState({});
+  let [logs, setLogs] = useState(null);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -63,8 +63,8 @@ export default function FetchAuditLogs() {
         if (filters.entityType) url += `entityType=${encodeURIComponent(filters.entityType)}&`;
         if (filters.dateFrom)   url += `dateFrom=${filters.dateFrom}&`;
         if (filters.dateTo)     url += `dateTo=${filters.dateTo}&`;
-        const res = await fetch(url);
-        const obj = await res.json();
+        let res = await fetch(url);
+        let obj = await res.json();
         setLogs(obj.data ?? []);
       } catch {
         setLogs([]);

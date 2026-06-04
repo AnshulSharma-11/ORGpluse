@@ -5,9 +5,9 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateDesignation() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const nav = useNavigate();
+  let { id } = useParams();
+  let { register, handleSubmit, formState: { errors }, reset } = useForm();
+  let nav = useNavigate();
 
   useEffect(() => {
     fetch(`${ADMIN_BASE}/designations/${id}`)
@@ -18,8 +18,8 @@ export default function UpdateDesignation() {
 
   async function onSubmit(data) {
     try {
-      const payload = { ...data, level: parseInt(data.level, 10) };
-      const res = await fetch(`${ADMIN_BASE}/designations/${id}`, {
+      let payload = { ...data, level: parseInt(data.level, 10) };
+      let res = await fetch(`${ADMIN_BASE}/designations/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

@@ -5,13 +5,13 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddDesignation() {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const nav = useNavigate();
+  let { register, handleSubmit, formState: { errors } } = useForm();
+  let nav = useNavigate();
 
   async function onSubmit(data) {
     try {
-      const payload = { ...data, level: parseInt(data.level, 10) };
-      const res = await fetch(`${ADMIN_BASE}/designations`, {
+      let payload = { ...data, level: parseInt(data.level, 10) };
+      let res = await fetch(`${ADMIN_BASE}/designations`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),

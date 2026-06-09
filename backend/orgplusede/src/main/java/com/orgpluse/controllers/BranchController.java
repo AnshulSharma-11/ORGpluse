@@ -36,7 +36,7 @@ public class BranchController {
     public ResponseEntity<ResponseWrapper> getBranchById(@PathVariable Long id) {
         return branchService.getBranchById(id);
     }
-
+     //jwt
     // GET /api/v1/admin/branches?search=&sortBy=&sortDirection=&page=0&size=20
     @GetMapping("/branches")
     public ResponseEntity<ResponseWrapper> getAllBranches(

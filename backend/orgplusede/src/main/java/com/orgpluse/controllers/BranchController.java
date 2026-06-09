@@ -15,7 +15,10 @@ import jakarta.validation.Valid;
 public class BranchController {
 
     @Autowired private BranchService branchService;
-
+    @PostMapping("/branches")
+    public ResponseEntity<ResponseWrapper> addBranch(@Valid @RequestBody Branch branch) {
+        return branchService.addBranch(branch);
+    }
     
 
     @PutMapping("/branches/{id}")

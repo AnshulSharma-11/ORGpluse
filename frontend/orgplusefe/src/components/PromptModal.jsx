@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
-
+// made some changes bcoz components were not able to fetch 
 /**
  * PromptModal — accessible replacement for window.prompt()
  *

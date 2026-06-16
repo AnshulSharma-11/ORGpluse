@@ -141,6 +141,7 @@ function MarkAttendancePanel({ onSuccess }) {
               </div>
 
               {/* Date */}
+              {/* // need to disable features to stop marking attendance of future */}
               <div className="col-md-4">
                 <label className="form-label" style={{ fontSize: 13 }}>
                   Date <span className="text-danger">*</span>

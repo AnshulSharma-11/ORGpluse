@@ -52,9 +52,9 @@ function MarkAttendancePanel({ onSuccess }) {
   let [open, setOpen]       = useState(false);
   let [saving, setSaving]   = useState(false);
   let panelRef              = useRef(null);
-  let today                 = new Date().toISOString().split('T')[0];
+  const today               = new Date().toISOString().split('T')[0];
 
-  let {
+  const {
     register,
     handleSubmit,
     reset,
@@ -148,6 +148,7 @@ function MarkAttendancePanel({ onSuccess }) {
                 <input
                   type="date"
                   className={`form-control form-control-sm ${errors.date ? 'is-invalid' : ''}`}
+                  max={today}
                   {...register('date', { required: 'Date is required' })}
                 />
                 {errors.date && (

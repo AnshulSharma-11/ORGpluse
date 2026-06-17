@@ -11,15 +11,15 @@ import { ADMIN_BASE } from '../../config/apiConfig';
  *   onSaved()     — called after a successful save so parent can refresh
  */
 export default function AssignEmployeesModal({ project, onClose, onSaved }) {
-  const [allEmployees, setAllEmployees] = useState([]);
-  const [selected, setSelected]         = useState(new Set());
-  const [search, setSearch]             = useState('');
-  const [loading, setLoading]           = useState(true);
-  const [saving, setSaving]             = useState(false);
-  const searchRef = useRef(null);
+  let [allEmployees, setAllEmployees] = useState([]);
+  let [selected, setSelected]         = useState(new Set());
+  let [search, setSearch]             = useState('');
+  let [loading, setLoading]           = useState(true);
+  let [saving, setSaving]             = useState(false);
+  let searchRef = useRef(null);
 
   // Pre-populate selected from current project employees
-  const originalIds = new Set((project.employees ?? []).map(e => e.id));
+  let originalIds = new Set((project.employees ?? []).map(e => e.id));
 
   useEffect(() => {
     authFetch(`${ADMIN_BASE}/employees?size=200`)
@@ -40,14 +40,14 @@ export default function AssignEmployeesModal({ project, onClose, onSaved }) {
 
   function toggle(id) {
     setSelected(prev => {
-      const next = new Set(prev);
+      let next = new Set(prev);
       next.has(id) ? next.delete(id) : next.add(id);
       return next;
     });
   }
 
-  const filtered = allEmployees.filter(e => {
-    const q = search.toLowerCase();
+  let filtered = allEmployees.filter(e => {
+    let q = search.toLowerCase();
     return (
       e.firstName?.toLowerCase().includes(q) ||
       e.lastName?.toLowerCase().includes(q) ||
@@ -59,18 +59,18 @@ export default function AssignEmployeesModal({ project, onClose, onSaved }) {
     setSaving(true);
     try {
       // Employees to ADD (in selected but not in original)
-      const toAdd    = [...selected].filter(id => !originalIds.has(id));
+      let toAdd    = [...selected].filter(id => !originalIds.has(id));
       // Employees to REMOVE (in original but not in selected)
-      const toRemove = [...originalIds].filter(id => !selected.has(id));
+      let toRemove = [...originalIds].filter(id => !selected.has(id));
 
-      const addPromises = toAdd.map(empId =>
+      let addPromises = toAdd.map(empId =>
         authFetch(`${ADMIN_BASE}/projects/${project.id}/employees`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ employeeIds: [empId] }),
         })
       );
-      const removePromises = toRemove.map(empId =>
+      let removePromises = toRemove.map(empId =>
         authFetch(`${ADMIN_BASE}/projects/${project.id}/employees/${empId}`, {
           method: 'DELETE',
         })
@@ -156,8 +156,8 @@ export default function AssignEmployeesModal({ project, onClose, onSaved }) {
                 <p className="text-muted text-center py-4 mb-0">No employees match your search.</p>
               ) : (
                 filtered.map(emp => {
-                  const isChecked = selected.has(emp.id);
-                  const checkId   = `emp-check-${emp.id}`;
+                  let isChecked = selected.has(emp.id);
+                  let checkId   = `emp-check-${emp.id}`;
                   return (
                     <label
                       key={emp.id}

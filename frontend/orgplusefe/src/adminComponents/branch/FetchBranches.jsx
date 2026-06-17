@@ -6,7 +6,7 @@ import { ADMIN_BASE } from '../../config/apiConfig';
 import DisplayBranches from './DisplayBranches';
 
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input className="form-control" style={{ maxWidth:200 }} placeholder="Search..." {...register('search')} />
@@ -29,9 +29,9 @@ function FilterBar({ onFilter }) {
 }
 
 export default function FetchBranches() {
-  const [branches, setBranches] = useState(null);
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [filters, setFilters] = useState({});
+  let [branches, setBranches] = useState(null);
+  let [isDeleted, setIsDeleted] = useState(false);
+  let [filters, setFilters] = useState({});
 
   useEffect(() => {
     async function load() {
@@ -43,8 +43,8 @@ export default function FetchBranches() {
         if (filters.sortBy)        url += `sortBy=${filters.sortBy}&`;
         if (filters.sortDirection) url += `sortDirection=${filters.sortDirection}&`;
 
-        const res = await authFetch(url);
-        const obj = await res.json();
+        let res = await authFetch(url);
+        let obj = await res.json();
         setBranches(obj.data?.content ?? obj.data ?? []);
       } catch {
         setBranches([]);
@@ -57,7 +57,7 @@ export default function FetchBranches() {
   async function deleteBranch(id) {
     setIsDeleted(false);
     try {
-      const res = await authFetch(`${ADMIN_BASE}/branches/${id}`, { method:'DELETE' });
+      let res = await authFetch(`${ADMIN_BASE}/branches/${id}`, { method:'DELETE' });
       if (res.ok) { toast.success('Branch deleted'); setIsDeleted(true); }
       else toast.error('Could not delete branch');
     } catch { toast.error('Could not delete branch'); }

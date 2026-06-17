@@ -2,6 +2,7 @@ package com.orgpluse.auth.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import lombok.Data;
 public class AdminRegisterRequest {
 
     @NotBlank(message = "Full name is required")
+    @Pattern(regexp = "^[a-zA-Z\\s]+$", message = "Full name must contain only letters and spaces")
     private String fullName;
 
     @NotBlank(message = "Email is required")

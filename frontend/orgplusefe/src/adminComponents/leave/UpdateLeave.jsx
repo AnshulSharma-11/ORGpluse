@@ -6,16 +6,16 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateLeave() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState:{ errors }, control, reset } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
+  let { id } = useParams();
+  let { register, handleSubmit, formState:{ errors }, control, reset } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
 
-  const startDate = useWatch({ control, name:'startDate' });
-  const endDate   = useWatch({ control, name:'endDate' });
+  let startDate = useWatch({ control, name:'startDate' });
+  let endDate   = useWatch({ control, name:'endDate' });
   let totalDays = 0;
   if (startDate && endDate) {
-    const diff = (new Date(endDate) - new Date(startDate)) / (1000*60*60*24);
+    let diff = (new Date(endDate) - new Date(startDate)) / (1000*60*60*24);
     if (diff >= 0) totalDays = diff + 1;
   }
 
@@ -25,7 +25,7 @@ export default function UpdateLeave() {
       authFetch(`${ADMIN_BASE}/employees?size=200`).then(r => r.json()),
     ]).then(([leaveRes, empRes]) => {
       setEmployees(empRes.data?.content ?? empRes.data ?? []);
-      const l = leaveRes.data;
+      let l = leaveRes.data;
       reset({ employeeId: l.employee?.id ?? '', leaveType: l.leaveType ?? '', startDate: l.startDate ?? '', endDate: l.endDate ?? '', reason: l.reason ?? '', status: l.status ?? '' });
     }).catch(() => toast.error('Failed to load leave data'));
   }, [id, reset]);
@@ -33,14 +33,14 @@ export default function UpdateLeave() {
   async function onSubmit(data) {
     if (totalDays <= 0) { toast.error('End date must be on or after start date'); return; }
     try {
-      const payload = {
+      let payload = {
         leaveType: data.leaveType, startDate: data.startDate, endDate: data.endDate,
         totalDays, reason: data.reason, status: data.status,
         employee: data.employeeId ? { id: parseInt(data.employeeId,10) } : undefined,
       };
-      const res = await authFetch(`${ADMIN_BASE}/leaves/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      let res = await authFetch(`${ADMIN_BASE}/leaves/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
       if (res.ok) { toast.success('Leave updated!'); nav('/admin/leaves', { replace:true }); }
-      else { const b = await res.json(); toast.error(b.message || 'Failed to update leave'); }
+      else { let b = await res.json(); toast.error(b.message || 'Failed to update leave'); }
     } catch { toast.error('Failed to update leave'); }
   }
 

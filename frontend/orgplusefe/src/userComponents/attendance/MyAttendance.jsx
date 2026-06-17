@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import { EMPLOYEE_BASE } from '../../config/apiConfig';
 
 function StatusBadge({ value }) {
-  const cls = value
+  let cls = value
     ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}`
     : '';
   return <span className={cls}>{value}</span>;
@@ -31,11 +31,11 @@ function StatCard({ label, value, icon, bg, color, loading }) {
 }
 
 export default function MyAttendance() {
-  const { employeeId }          = useParams();
-  const [records, setRecords]   = useState(null);
-  const [filters, setFilters]   = useState({});
+  let { employeeId }          = useParams();
+  let [records, setRecords]   = useState(null);
+  let [filters, setFilters]   = useState({});
 
-  const { register, handleSubmit, reset } = useForm({
+  let { register, handleSubmit, reset } = useForm({
     defaultValues: {
       month: new Date().getMonth() + 1,
       year:  new Date().getFullYear(),
@@ -47,13 +47,13 @@ export default function MyAttendance() {
       try {
         let url = `${EMPLOYEE_BASE(employeeId)}/attendance?`;
         if (filters.month && filters.year) {
-          const m       = String(filters.month).padStart(2, '0');
-          const y       = filters.year;
-          const lastDay = new Date(y, filters.month, 0).getDate();
+          let m       = String(filters.month).padStart(2, '0');
+          let y       = filters.year;
+          let lastDay = new Date(y, filters.month, 0).getDate();
           url += `dateFrom=${y}-${m}-01&dateTo=${y}-${m}-${String(lastDay).padStart(2, '0')}&`;
         }
-        const res = await authFetch(url);
-        const obj = await res.json();
+        let res = await authFetch(url);
+        let obj = await res.json();
         setRecords(obj.data?.content ?? []);
       } catch {
         setRecords([]);
@@ -64,11 +64,11 @@ export default function MyAttendance() {
   }, [employeeId, filters]);
 
   // ── Stats computed from fetched records (no extra API call) ───────────────
-  const loading      = records === null;
-  const presentCount = loading ? 0 : records.filter(r => r.status === 'PRESENT').length;
-  const absentCount  = loading ? 0 : records.filter(r => r.status === 'ABSENT').length;
-  const halfDayCount = loading ? 0 : records.filter(r => r.status === 'HALF_DAY').length;
-  const totalHours   = loading ? '0.0'
+  let loading      = records === null;
+  let presentCount = loading ? 0 : records.filter(r => r.status === 'PRESENT').length;
+  let absentCount  = loading ? 0 : records.filter(r => r.status === 'ABSENT').length;
+  let halfDayCount = loading ? 0 : records.filter(r => r.status === 'HALF_DAY').length;
+  let totalHours   = loading ? '0.0'
     : records.reduce((sum, r) => sum + (r.hoursWorked ?? 0), 0).toFixed(1);
 
   return (

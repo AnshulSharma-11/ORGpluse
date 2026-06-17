@@ -3,11 +3,11 @@ import { NavLink, useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 
 export default function UserNavbar() {
-  const { employeeId } = useParams();
-  const { logoutEmployee } = useAuth();
-  const navigate = useNavigate();
-  const base = `/employee/${employeeId}`;
-  const linkClass = ({ isActive }) => isActive ? 'active' : '';
+  let { employeeId } = useParams();
+  let { logoutEmployee } = useAuth();
+  let navigate = useNavigate();
+  let base = `/employee/${employeeId}`;
+  let linkClass = ({ isActive }) => isActive ? 'active' : '';
 
   function handleLogout() {
     logoutEmployee();

@@ -6,10 +6,10 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdatePerformance() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState:{ errors }, reset } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
+  let { id } = useParams();
+  let { register, handleSubmit, formState:{ errors }, reset } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
 
   useEffect(() => {
     Promise.all([
@@ -17,23 +17,23 @@ export default function UpdatePerformance() {
       authFetch(`${ADMIN_BASE}/employees?size=200`).then(r => r.json()),
     ]).then(([perfRes, empRes]) => {
       setEmployees(empRes.data?.content ?? empRes.data ?? []);
-      const p = perfRes.data;
+      let p = perfRes.data;
       reset({ employeeId: p.employee?.id ?? '', reviewerId: p.reviewer?.id ?? '', cycleName: p.cycleName ?? '', startDate: p.startDate ?? '', endDate: p.endDate ?? '', score: p.score ?? '', comments: p.comments ?? '', status: p.status ?? '' });
     }).catch(() => toast.error('Failed to load performance review'));
   }, [id, reset]);
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         cycleName: data.cycleName, startDate: data.startDate, endDate: data.endDate,
         score: data.score ? parseInt(data.score,10) : undefined,
         comments: data.comments, status: data.status,
         employee: data.employeeId ? { id: parseInt(data.employeeId,10) } : undefined,
         reviewer: data.reviewerId ? { id: parseInt(data.reviewerId,10) } : undefined,
       };
-      const res = await authFetch(`${ADMIN_BASE}/performance/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      let res = await authFetch(`${ADMIN_BASE}/performance/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
       if (res.ok) { toast.success('Performance review updated!'); nav('/admin/performance', { replace:true }); }
-      else { const b = await res.json(); toast.error(b.message || 'Failed to update review'); }
+      else { let b = await res.json(); toast.error(b.message || 'Failed to update review'); }
     } catch { toast.error('Failed to update performance review'); }
   }
 

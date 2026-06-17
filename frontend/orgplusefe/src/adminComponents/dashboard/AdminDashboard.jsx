@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AdminDashboard() {
-  const [stats, setStats] = useState(null);
+  let [stats, setStats] = useState(null);
 
   useEffect(() => {
     async function load() {
       try {
-        const [employees, departments, branches, payrolls] = await Promise.all([
+        let [employees, departments, branches, payrolls] = await Promise.all([
           authFetch(`${ADMIN_BASE}/employees`).then(r => r.json()),
           authFetch(`${ADMIN_BASE}/departments`).then(r => r.json()),
           authFetch(`${ADMIN_BASE}/branches`).then(r => r.json()),
@@ -28,16 +28,16 @@ export default function AdminDashboard() {
     load();
   }, []);
 
-  const loading = stats === null;
+  let loading = stats === null;
 
-  const statCards = [
+  let statCards = [
     { label:'Total Employees', value:stats?.employees,   icon:'bi-people-fill',    bg:'#eff6ff', color:'#1d4ed8' },
     { label:'Departments',     value:stats?.departments, icon:'bi-building-fill',  bg:'#f0fdf4', color:'#15803d' },
     { label:'Branches',        value:stats?.branches,    icon:'bi-diagram-3-fill', bg:'#fff7ed', color:'#c2410c' },
     { label:'Payroll Runs',    value:stats?.payrolls,    icon:'bi-wallet2',        bg:'#f0fdf4', color:'#15803d' },
   ];
 
-  const quickCards = [
+  let quickCards = [
     { label:'Employees',    icon:'bi-people',         cls:'qc-blue',   to:'/admin/employees' },
     { label:'Departments',  icon:'bi-building',       cls:'qc-green',  to:'/admin/departments' },
     { label:'Branches',     icon:'bi-diagram-3',      cls:'qc-yellow', to:'/admin/branches' },

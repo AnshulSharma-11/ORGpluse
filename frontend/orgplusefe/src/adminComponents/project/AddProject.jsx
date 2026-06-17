@@ -6,21 +6,21 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddProject() {
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+  let { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     defaultValues: { status: 'PLANNED', priority: 'MEDIUM' },
   });
-  const nav = useNavigate();
+  let nav = useNavigate();
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         name:        data.name.trim(),
         description: data.description?.trim() || null,
         deadline:    data.deadline || null,
         status:      data.status,
         priority:    data.priority,
       };
-      const res = await authFetch(`${ADMIN_BASE}/projects`, {
+      let res = await authFetch(`${ADMIN_BASE}/projects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload),
@@ -29,7 +29,7 @@ export default function AddProject() {
         toast.success('Project created!');
         nav('/admin/projects', { replace: true });
       } else {
-        const b = await res.json();
+        let b = await res.json();
         toast.error(b.message || 'Failed to create project');
       }
     } catch {

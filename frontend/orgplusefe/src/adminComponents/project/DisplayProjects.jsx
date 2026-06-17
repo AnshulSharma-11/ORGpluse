@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import AssignEmployeesModal from './AssignEmployeesModal';
 
 function StatusBadge({ value }) {
-  const cls = value
+  let cls = value
     ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}`
     : '';
   return <span className={cls}>{value?.replace('_', ' ')}</span>;
 }
 
 export default function DisplayProjects({ projects, onDelete, onRefresh, onAdd, FilterBar, onFilter }) {
-  const [assignTarget, setAssignTarget] = useState(null); // project being assigned
+  let [assignTarget, setAssignTarget] = useState(null); // project being assigned
 
   return (
     <div className="hrms-content">

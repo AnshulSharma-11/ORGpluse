@@ -7,7 +7,7 @@ import DisplayTimeRecords from './DisplayTimeRecords';
 
 // ── Filter bar (sort removed) ─────────────────────────────────────────────────
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -49,12 +49,12 @@ function FilterBar({ onFilter }) {
 
 // ── Mark Attendance collapsible panel ─────────────────────────────────────────
 function MarkAttendancePanel({ onSuccess }) {
-  const [open, setOpen]       = useState(false);
-  const [saving, setSaving]   = useState(false);
-  const panelRef              = useRef(null);
-  const today                 = new Date().toISOString().split('T')[0];
+  let [open, setOpen]       = useState(false);
+  let [saving, setSaving]   = useState(false);
+  let panelRef              = useRef(null);
+  let today                 = new Date().toISOString().split('T')[0];
 
-  const {
+  let {
     register,
     handleSubmit,
     reset,
@@ -64,7 +64,7 @@ function MarkAttendancePanel({ onSuccess }) {
   async function onSubmit(data) {
     setSaving(true);
     try {
-      const payload = {
+      let payload = {
         employee:     { id: parseInt(data.employeeId, 10) },
         date:         data.date,
         status:       data.status,
@@ -72,7 +72,7 @@ function MarkAttendancePanel({ onSuccess }) {
         checkOutTime: data.checkOutTime || null,
         notes:        data.notes        || null,
       };
-      const res = await authFetch(`${ADMIN_BASE}/time-records`, {
+      let res = await authFetch(`${ADMIN_BASE}/time-records`, {
         method:  'POST',
         headers: { 'Content-Type': 'application/json' },
         body:    JSON.stringify(payload),
@@ -83,7 +83,7 @@ function MarkAttendancePanel({ onSuccess }) {
         setOpen(false);
         onSuccess();
       } else {
-        const b = await res.json();
+        let b = await res.json();
         toast.error(b.message || 'Failed to mark attendance');
       }
     } catch {
@@ -236,9 +236,9 @@ function MarkAttendancePanel({ onSuccess }) {
 
 // ── Main component ─────────────────────────────────────────────────────────────
 export default function FetchTimeRecords() {
-  const [records, setRecords]   = useState(null);
-  const [isRefresh, setIsRefresh] = useState(false);
-  const [filters, setFilters]   = useState({});
+  let [records, setRecords]   = useState(null);
+  let [isRefresh, setIsRefresh] = useState(false);
+  let [filters, setFilters]   = useState({});
 
   useEffect(() => {
     async function load() {
@@ -248,8 +248,8 @@ export default function FetchTimeRecords() {
         if (filters.status)     url += `status=${filters.status}&`;
         if (filters.dateFrom)   url += `dateFrom=${filters.dateFrom}&`;
         if (filters.dateTo)     url += `dateTo=${filters.dateTo}&`;
-        const res = await authFetch(url);
-        const obj = await res.json();
+        let res = await authFetch(url);
+        let obj = await res.json();
         setRecords(obj.data?.content ?? []);
       } catch {
         setRecords([]);
@@ -261,7 +261,7 @@ export default function FetchTimeRecords() {
 
   async function deleteRecord(id) {
     try {
-      const res = await authFetch(`${ADMIN_BASE}/time-records/${id}`, { method: 'DELETE' });
+      let res = await authFetch(`${ADMIN_BASE}/time-records/${id}`, { method: 'DELETE' });
       if (res.ok) { toast.success('Record deleted'); setIsRefresh(v => !v); }
       else toast.error('Could not delete record');
     } catch {

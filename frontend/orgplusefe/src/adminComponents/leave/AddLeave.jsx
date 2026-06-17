@@ -6,15 +6,15 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function AddLeave() {
-  const { register, handleSubmit, formState:{ errors }, control } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
+  let { register, handleSubmit, formState:{ errors }, control } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
 
-  const startDate = useWatch({ control, name:'startDate' });
-  const endDate   = useWatch({ control, name:'endDate' });
+  let startDate = useWatch({ control, name:'startDate' });
+  let endDate   = useWatch({ control, name:'endDate' });
   let totalDays = 0;
   if (startDate && endDate) {
-    const diff = (new Date(endDate) - new Date(startDate)) / (1000*60*60*24);
+    let diff = (new Date(endDate) - new Date(startDate)) / (1000*60*60*24);
     if (diff >= 0) totalDays = diff + 1;
   }
 
@@ -27,14 +27,14 @@ export default function AddLeave() {
   async function onSubmit(data) {
     if (totalDays <= 0) { toast.error('End date must be on or after start date'); return; }
     try {
-      const payload = {
+      let payload = {
         leaveType: data.leaveType, startDate: data.startDate, endDate: data.endDate,
         totalDays, reason: data.reason, status: data.status,
         employee: data.employeeId ? { id: parseInt(data.employeeId,10) } : undefined,
       };
-      const res = await authFetch(`${ADMIN_BASE}/leaves`, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      let res = await authFetch(`${ADMIN_BASE}/leaves`, { method:'POST', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
       if (res.ok) { toast.success('Leave added!'); nav('/admin/leaves', { replace:true }); }
-      else { const b = await res.json(); toast.error(b.message || 'Failed to add leave'); }
+      else { let b = await res.json(); toast.error(b.message || 'Failed to add leave'); }
     } catch { toast.error('Failed to add leave'); }
   }
 

@@ -7,5 +7,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
 
 /** Annual leave quota per employee (days). */
-export const DEFAULT_LEAVE_QUOTA =
+export let DEFAULT_LEAVE_QUOTA =
   parseInt(process.env.REACT_APP_LEAVE_QUOTA, 10) || 20;

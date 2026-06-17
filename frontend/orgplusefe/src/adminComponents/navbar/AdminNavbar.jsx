@@ -3,9 +3,9 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../auth/AuthContext';
 
 export default function AdminNavbar() {
-  const { logoutAdmin } = useAuth();
-  const navigate = useNavigate();
-  const link = ({ isActive }) => isActive ? 'nav-link active' : 'nav-link';
+  let { logoutAdmin } = useAuth();
+  let navigate = useNavigate();
+  let link = ({ isActive }) => isActive ? 'nav-link active' : 'nav-link';
 
   function handleLogout() {
     logoutAdmin();

@@ -14,11 +14,11 @@ import { useAuth } from './AuthContext';
  * can forward there after a successful sign-in.
  */
 export default function ProtectedRoute({ role, children }) {
-  const { isAdminAuth, isEmployeeAuth } = useAuth();
-  const location = useLocation();
+  let { isAdminAuth, isEmployeeAuth } = useAuth();
+  let location = useLocation();
 
-  const authenticated = role === 'admin' ? isAdminAuth : isEmployeeAuth;
-  const loginPath     = role === 'admin' ? '/admin/login' : '/employee/login';
+  let authenticated = role === 'admin' ? isAdminAuth : isEmployeeAuth;
+  let loginPath     = role === 'admin' ? '/admin/login' : '/employee/login';
 
   if (!authenticated) {
     return <Navigate to={loginPath} state={{ from: location }} replace />;

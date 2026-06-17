@@ -6,11 +6,11 @@ import { toast } from 'react-toastify';
 import { ADMIN_BASE } from '../../config/apiConfig';
 
 export default function UpdateHelp() {
-  const { id } = useParams();
-  const { register, handleSubmit, formState:{ errors }, reset } = useForm();
-  const nav = useNavigate();
-  const [employees, setEmployees] = useState([]);
-  const [ticket, setTicket] = useState(null);
+  let { id } = useParams();
+  let { register, handleSubmit, formState:{ errors }, reset } = useForm();
+  let nav = useNavigate();
+  let [employees, setEmployees] = useState([]);
+  let [ticket, setTicket] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -18,7 +18,7 @@ export default function UpdateHelp() {
       authFetch(`${ADMIN_BASE}/employees?size=200`).then(r => r.json()),
     ]).then(([helpRes, empRes]) => {
       setEmployees(empRes.data?.content ?? []);
-      const h = helpRes.data;
+      let h = helpRes.data;
       setTicket(h);
       reset({ status: h.status ?? '', priority: h.priority ?? '', assignedTo: h.assignedTo?.id ?? '' });
     }).catch(() => toast.error('Failed to load help ticket'));
@@ -26,13 +26,13 @@ export default function UpdateHelp() {
 
   async function onSubmit(data) {
     try {
-      const payload = {
+      let payload = {
         status: data.status, priority: data.priority,
         assignedTo: data.assignedTo ? { id: parseInt(data.assignedTo,10) } : undefined,
       };
-      const res = await authFetch(`${ADMIN_BASE}/help/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
+      let res = await authFetch(`${ADMIN_BASE}/help/${id}`, { method:'PUT', headers:{ 'Content-Type':'application/json' }, body: JSON.stringify(payload) });
       if (res.ok) { toast.success('Help ticket updated!'); nav('/admin/help', { replace:true }); }
-      else { const b = await res.json(); toast.error(b.message || 'Failed to update ticket'); }
+      else { let b = await res.json(); toast.error(b.message || 'Failed to update ticket'); }
     } catch { toast.error('Failed to update help ticket'); }
   }
 

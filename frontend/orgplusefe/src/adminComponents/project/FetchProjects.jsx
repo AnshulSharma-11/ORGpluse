@@ -8,7 +8,7 @@ import DisplayProjects from './DisplayProjects';
 
 // ── Filter bar ────────────────────────────────────────────────────────────────
 function FilterBar({ onFilter }) {
-  const { register, handleSubmit, reset } = useForm();
+  let { register, handleSubmit, reset } = useForm();
   return (
     <form className="filter-bar" onSubmit={handleSubmit(onFilter)}>
       <input
@@ -62,10 +62,10 @@ function SkeletonRow() {
 
 // ── Main component ─────────────────────────────────────────────────────────────
 export default function FetchProjects() {
-  const [projects, setProjects]   = useState(null);
-  const [filters, setFilters]     = useState({});
-  const [isRefresh, setIsRefresh] = useState(false);
-  const nav = useNavigate();
+  let [projects, setProjects]   = useState(null);
+  let [filters, setFilters]     = useState({});
+  let [isRefresh, setIsRefresh] = useState(false);
+  let nav = useNavigate();
 
   useEffect(() => {
     async function load() {
@@ -74,8 +74,8 @@ export default function FetchProjects() {
         if (filters.name)     url += `name=${encodeURIComponent(filters.name)}&`;
         if (filters.status)   url += `status=${filters.status}&`;
         if (filters.priority) url += `priority=${filters.priority}&`;
-        const res = await authFetch(url);
-        const obj = await res.json();
+        let res = await authFetch(url);
+        let obj = await res.json();
         // Support both plain array and PageResponse envelope
         setProjects(obj.data?.content ?? obj.data ?? []);
       } catch {
@@ -89,7 +89,7 @@ export default function FetchProjects() {
   async function deleteProject(id) {
     if (!window.confirm('Delete this project? This cannot be undone.')) return;
     try {
-      const res = await authFetch(`${ADMIN_BASE}/projects/${id}`, { method: 'DELETE' });
+      let res = await authFetch(`${ADMIN_BASE}/projects/${id}`, { method: 'DELETE' });
       if (res.ok) {
         toast.success('Project deleted');
         setIsRefresh(v => !v);

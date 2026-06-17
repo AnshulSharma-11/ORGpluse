@@ -26,15 +26,15 @@ export default function PromptModal({
   onConfirm,
   onCancel,
 }) {
-  const { register, handleSubmit, formState: { errors }, reset, setFocus } = useForm();
-  const backdropRef = useRef(null);
+  let { register, handleSubmit, formState: { errors }, reset, setFocus } = useForm();
+  let backdropRef = useRef(null);
 
   // Auto-focus textarea when modal opens; reset on close
   useEffect(() => {
     if (show) {
       reset();
       // Small delay lets the element finish rendering before focusing
-      const t = setTimeout(() => setFocus('note'), 60);
+      let t = setTimeout(() => setFocus('note'), 60);
       return () => clearTimeout(t);
     }
   }, [show, reset, setFocus]);

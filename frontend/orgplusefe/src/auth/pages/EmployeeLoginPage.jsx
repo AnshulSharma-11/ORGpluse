@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../AuthContext';
 
-const AUTH_BASE = 'http://localhost:8080/api/v1/auth';
+let AUTH_BASE = 'http://localhost:8080/api/v1/auth';
 
 function AuthCard({ children }) {
   return (
@@ -26,26 +26,26 @@ function AuthCard({ children }) {
 }
 
 function LoginForm({ onSwitch }) {
-  const { register, handleSubmit, formState:{ errors } } = useForm();
-  const { loginEmployee } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  let { register, handleSubmit, formState:{ errors } } = useForm();
+  let { loginEmployee } = useAuth();
+  let navigate = useNavigate();
+  let location = useLocation();
+  let [loading, setLoading] = useState(false);
 
   async function onSubmit(data) {
     setLoading(true);
     try {
-      const res = await fetch(`${AUTH_BASE}/employee/login`, {
+      let res = await fetch(`${AUTH_BASE}/employee/login`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: data.email, password: data.password }),
       });
-      const body = await res.json();
+      let body = await res.json();
       if (res.ok && body.data?.token) {
         loginEmployee(body.data.token, body.data);
         toast.success(`Welcome back, ${body.data.firstName}!`);
         // Navigate to attempted URL or employee dashboard
-        const from = location.state?.from?.pathname;
+        let from = location.state?.from?.pathname;
         if (from && from.startsWith('/employee/')) {
           navigate(from, { replace: true });
         } else {
@@ -87,18 +87,18 @@ function LoginForm({ onSwitch }) {
 }
 
 function RegisterForm({ onSwitch }) {
-  const { register, handleSubmit, formState:{ errors }, watch } = useForm();
-  const [loading, setLoading] = useState(false);
+  let { register, handleSubmit, formState:{ errors }, watch } = useForm();
+  let [loading, setLoading] = useState(false);
 
   async function onSubmit(data) {
     setLoading(true);
     try {
-      const res = await fetch(`${AUTH_BASE}/employee/register`, {
+      let res = await fetch(`${AUTH_BASE}/employee/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ firstName:data.firstName, lastName:data.lastName, email:data.email, password:data.password }),
       });
-      const body = await res.json();
+      let body = await res.json();
       if (res.ok) { toast.success('Account created — please sign in'); onSwitch(); }
       else toast.error(body.message || 'Registration failed');
     } catch {
@@ -151,7 +151,7 @@ function RegisterForm({ onSwitch }) {
 }
 
 export default function EmployeeLoginPage() {
-  const [mode, setMode] = useState('login');
+  let [mode, setMode] = useState('login');
   return (
     <AuthCard>
       {mode === 'login' ? <LoginForm onSwitch={() => setMode('register')} /> : <RegisterForm onSwitch={() => setMode('login')} />}
@@ -159,6 +159,6 @@ export default function EmployeeLoginPage() {
   );
 }
 
-const labelStyle = { fontWeight:600, fontSize:'0.83rem', color:'#374151', marginBottom:4 };
-const inputStyle  = { borderRadius:8, fontSize:'0.9rem' };
-const linkBtnStyle = { background:'none', border:'none', padding:0, fontWeight:600, cursor:'pointer', fontSize:'0.85rem' };
+let labelStyle = { fontWeight:600, fontSize:'0.83rem', color:'#374151', marginBottom:4 };
+let inputStyle  = { borderRadius:8, fontSize:'0.9rem' };
+let linkBtnStyle = { background:'none', border:'none', padding:0, fontWeight:600, cursor:'pointer', fontSize:'0.85rem' };

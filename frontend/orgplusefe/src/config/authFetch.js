@@ -14,13 +14,13 @@
  *   browser can set it automatically with the correct multipart boundary.
  *
  * USAGE (identical to fetch):
- *   const res = await authFetch(`${ADMIN_BASE}/employees`);
- *   const res = await authFetch(`${ADMIN_BASE}/employees`, { method: 'POST', body: JSON.stringify(payload) });
- *   const res = await authFetch(`${EMPLOYEE_BASE}/documents`, { method: 'POST', body: formData });
+ *   let res = await authFetch(`${ADMIN_BASE}/employees`);
+ *   let res = await authFetch(`${ADMIN_BASE}/employees`, { method: 'POST', body: JSON.stringify(payload) });
+ *   let res = await authFetch(`${EMPLOYEE_BASE}/documents`, { method: 'POST', body: formData });
  */
 
-const ADMIN_TOKEN_KEY    = 'orgpluse_admin_token';
-const EMPLOYEE_TOKEN_KEY = 'orgpluse_employee_token';
+let ADMIN_TOKEN_KEY    = 'orgpluse_admin_token';
+let EMPLOYEE_TOKEN_KEY = 'orgpluse_employee_token';
 
 function getToken(url) {
   try {
@@ -40,10 +40,10 @@ function getToken(url) {
 }
 
 export default function authFetch(url, options = {}) {
-  const token = getToken(url);
-  const isFormData = options.body instanceof FormData;
+  let token = getToken(url);
+  let isFormData = options.body instanceof FormData;
 
-  const headers = {
+  let headers = {
     // Only set Content-Type for non-FormData — browser sets it automatically for FormData
     ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
     ...(options.headers || {}),

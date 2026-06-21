@@ -54,11 +54,13 @@ import MyLeaves            from './userComponents/leave/MyLeaves';
 import RaiseHelpRequest    from './userComponents/help/RaiseHelpRequest';
 import MyPayroll           from './userComponents/payroll/MyPayroll';
 import MyAttendance        from './userComponents/attendance/MyAttendance';
+import Combinelogin from './auth/pages/Combinelogin';
 
-const router = createBrowserRouter([
-
-  { path: '/admin/login',    element: <AdminLoginPage /> },
+let router = createBrowserRouter([
+  { path: '/combinelogin' , element:<Combinelogin/> },
   { path: '/employee/login', element: <EmployeeLoginPage /> },
+  { path: '/admin/login',    element: <AdminLoginPage /> },
+  
 
   {
     path: '/admin',
@@ -117,7 +119,7 @@ const router = createBrowserRouter([
     ],
   },
 
-  { path: '/', element: <Navigate to="/admin/login" replace /> },
+  { path: '/', element: <Navigate to="/combinelogin" replace /> }, // home page link where it start first once you start the serve this link goes
 
   {
     path: '*',
@@ -134,6 +136,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')).render(
   <AuthProvider>
     <RouterProvider router={router} />
-    <ToastContainer position="top-right" autoClose={2000} hideProgressBar={false} newestOnTop={false} closeOnClick={false} rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="light" transition={Zoom} />
+    <ToastContainer position="top-right" autoClose={2000} 
+    hideProgressBar={false} newestOnTop={false} 
+    closeOnClick={false} rtl={false} 
+    pauseOnFocusLoss draggable pauseOnHover theme="light" transition={Zoom} />
   </AuthProvider>
 );

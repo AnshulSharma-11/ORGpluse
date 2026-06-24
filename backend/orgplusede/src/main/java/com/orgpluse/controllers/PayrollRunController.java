@@ -73,5 +73,23 @@ public class PayrollRunController {
         return payrollRunService.filterPayrollRuns(employeeId, month, year, status,
                 processedBy, sortBy, sortDirection);
     }
+    
+    @PostMapping("/payroll/create-order")
+    public ResponseEntity<?> createOrder(
+            @RequestParam Long payrollId)
+            throws Exception {
+
+        return payrollRunService
+                .createOrder(payrollId);
+    }
+    
+    @PostMapping("/payroll/verify")
+    public ResponseEntity<?> verifyPayment(
+            @RequestBody Map<String,Object>
+                    request) {
+
+        return payrollRunService
+                .verifyPayment(request);
+    }
 
 }

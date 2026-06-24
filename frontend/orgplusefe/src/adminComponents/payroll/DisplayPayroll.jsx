@@ -9,6 +9,74 @@ function StatusBadge({ value }) {
 let MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'];
 
+
+const handlePayment =
+async (payroll) => {
+
+    const response =
+    await fetch(
+        `http://localhost:8080/api/v1/admin/payroll/create-order?payrollId=${payroll.id}`,
+        {
+            method:"POST"
+        }
+    );
+
+    const order =
+    await response.json();
+
+    const options = {
+
+        key:
+        "rzp_test_xxxxx",
+
+        amount:
+        order.amount,
+
+        currency:
+        order.currency,
+
+        order_id:
+        order.id,
+
+        name:
+        "ORGpluse Payroll",
+
+        handler:
+        async function(res){
+
+            await fetch(
+              "http://localhost:8080/api/v1/admin/payroll/verify",
+              {
+                method:"POST",
+                headers:{
+                 "Content-Type":
+                 "application/json"
+                },
+                body:JSON.stringify({
+
+                    payrollId:
+                    payroll.id,
+
+                    paymentId:
+                    res.razorpay_payment_id
+                })
+              }
+            );
+
+            alert(
+              "Salary Paid"
+            );
+
+            window.location.reload();
+        }
+    };
+
+    const razor = new window.Razorpay(  options ); 
+     razor.open();
+};
+
+
+
 export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, FilterBar }) {
   return (
     <div className="hrms-content">
@@ -31,6 +99,7 @@ export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, Filt
                 <th>Status</th>
                 <th>Processed By</th>
                 <th>Actions</th>
+                <th>Pay Salary</th>
               </tr>
             </thead>
             <tbody>
@@ -59,6 +128,16 @@ export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, Filt
                         <i className="bi bi-trash"></i>
                       </button>
                     </td>
+                    <td>
+                      <button
+                          className="btn btn-success"
+                          onClick={() =>
+                              handlePayment(p)
+                          }
+                      >
+                          Pay Salary
+                      </button>
+                  </td>
                   </tr>
                 ))
               )}

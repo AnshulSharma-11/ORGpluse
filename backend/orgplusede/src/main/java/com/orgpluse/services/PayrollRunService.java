@@ -7,7 +7,10 @@ import com.orgpluse.repositories.PayrollRunRepository;
 import com.orgpluse.response_wrapper.ResponseWrapper;
 import com.orgpluse.response_wrapper.UniversalResponse;
 import com.orgpluse.specifications.PayrollRunSpecification;
+import com.razorpay.Order;
+import com.razorpay.RazorpayClient;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -33,6 +36,9 @@ public class PayrollRunService {
 
     @Autowired
     private UniversalResponse response;
+    
+    @Autowired
+    private RazorpayClient razorpayClient;
 
     // ── CREATE ────────────────────────────────────────────────────────────────
 
@@ -255,5 +261,83 @@ public class PayrollRunService {
         List<PayrollRun> runs = payrollRunRepository.findAll(spec);
         return response.send("Payroll runs filtered successfully", runs, HttpStatus.OK);
     }
+    // payroll---------------------------------------------------------------------------------------------
+    public ResponseEntity<?> createOrder(
+            Long payrollId)
+            throws Exception {
 
+        PayrollRun payroll =
+                payrollRunRepository
+                        .findById(payrollId)
+                        .orElseThrow();
+
+        JSONObject options =
+                new JSONObject();
+
+        options.put(
+                "amount",
+                50000 * 100
+        );
+
+        options.put(
+                "currency",
+                "INR"
+        );
+
+        Order order =
+                razorpayClient.orders
+                        .create(options);
+
+        payroll.setRazorpayOrderId(
+                order.get("id")
+        );
+
+        payrollRunRepository.save(
+                payroll
+        );
+
+        return ResponseEntity.ok(order);
+    }
+    
+    //payroll verification
+    
+    public ResponseEntity<?> verifyPayment(
+            Map<String,Object> request) {
+
+        Long payrollId =
+                Long.valueOf(
+                        request.get(
+                                "payrollId"
+                        ).toString()
+                );
+
+        PayrollRun payroll =
+                payrollRunRepository
+                        .findById(payrollId)
+                        .orElseThrow();
+
+        payroll.setStatus("PAID");
+
+        payroll.setRazorpayPaymentId(
+                request.get(
+                        "paymentId"
+                ).toString()
+        );
+
+        payroll.setTransactionId(
+                request.get(
+                        "paymentId"
+                ).toString()
+        );
+
+        payrollRunRepository.save(
+                payroll
+        );
+
+        return response.send(
+                "Payment Success",
+                payroll,
+                HttpStatus.OK
+        );
+    }
 }

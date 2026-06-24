@@ -53,6 +53,15 @@ public class PayrollRun {
     @LastModifiedDate
     @Column(name = "updated_at")
     private Instant updatedAt;
+    
+    @Column(name = "razorpay_order_id")
+    private String razorpayOrderId;
+
+    @Column(name = "razorpay_payment_id")
+    private String razorpayPaymentId;
+
+    @Column(name = "transaction_id")
+    private String transactionId;
 
     // ── Employee whose payslip this record belongs to (required)
     @ManyToOne(fetch = FetchType.LAZY)

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../auth/AuthContext';
 
 function StatusBadge({ value }) {
   let cls = value ? `status-badge badge-${String(value).toLowerCase().replace(/ /g, '_')}` : '';
@@ -9,75 +10,66 @@ function StatusBadge({ value }) {
 let MONTH_NAMES = ['', 'January', 'February', 'March', 'April', 'May', 'June',
   'July', 'August', 'September', 'October', 'November', 'December'];
 
+export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, FilterBar }) {
+  const { adminUser } = useAuth();
 
-const handlePayment =
-async (payroll) => {
+  const handlePayment = (payroll) => {
+    if (!window.Razorpay) {
+      alert('Razorpay SDK failed to load. Please check your internet connection.');
+      return;
+    }
 
-    const response =
-    await fetch(
-        `http://localhost:8080/api/v1/admin/payroll/create-order?payrollId=${payroll.id}`,
-        {
-            method:"POST"
-        }
-    );
+    // Calculate amount in paise (Razorpay needs smallest currency unit)
+    const salaryAmount = payroll.netSalary || payroll.grossSalary || payroll.amount || 0;
+    const amountInPaise = Math.round(salaryAmount * 100);
 
-    const order =
-    await response.json();
+    const employeeName = payroll.employee
+      ? `${payroll.employee.firstName} ${payroll.employee.lastName}`
+      : 'Employee';
+
+    const monthLabel = `${MONTH_NAMES[payroll.month] || payroll.month} ${payroll.year}`;
 
     const options = {
-
-        key:
-        "rzp_test_xxxxx",
-
-        amount:
-        order.amount,
-
-        currency:
-        order.currency,
-
-        order_id:
-        order.id,
-
-        name:
-        "ORGpluse Payroll",
-
-        handler:
-        async function(res){
-
-            await fetch(
-              "http://localhost:8080/api/v1/admin/payroll/verify",
-              {
-                method:"POST",
-                headers:{
-                 "Content-Type":
-                 "application/json"
-                },
-                body:JSON.stringify({
-
-                    payrollId:
-                    payroll.id,
-
-                    paymentId:
-                    res.razorpay_payment_id
-                })
-              }
-            );
-
-            alert(
-              "Salary Paid"
-            );
-
-            window.location.reload();
+      key: "rzp_test_T5VyQJmuE0197k",           // ← replace with your Razorpay test key
+      amount: amountInPaise,
+      currency: "INR",
+      name: "ORGpluse Payroll",
+      description: `Salary for ${employeeName} — ${monthLabel}`,
+      image: "",                        // optional: your logo URL
+      prefill: {
+        name: adminUser ? `${adminUser.firstName} ${adminUser.lastName}` : '',
+        email: adminUser?.email || '',
+      },
+      notes: {
+        payroll_id: payroll.id,
+        employee: employeeName,
+        month_year: monthLabel,
+      },
+      theme: {
+        color: "#1e293b",
+      },
+      handler: function (response) {
+        // Payment successful on Razorpay side
+        // Backend verify call removed — wire it up when backend is ready
+        alert(`✅ Salary Paid Successfully!\nPayment ID: ${response.razorpay_payment_id}`);
+        window.location.reload();
+      },
+      modal: {
+        ondismiss: function () {
+          // User closed the modal — do nothing, no error
         }
+      }
     };
 
-    const razor = new window.Razorpay(  options ); 
-     razor.open();
-};
+    const razor = new window.Razorpay(options);
 
+    razor.on('payment.failed', function (response) {
+      alert(`❌ Payment Failed: ${response.error.description}`);
+    });
 
+    razor.open();
+  };
 
-export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, FilterBar }) {
   return (
     <div className="hrms-content">
       <div className="page-header">
@@ -104,7 +96,7 @@ export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, Filt
             </thead>
             <tbody>
               {payrollsValue.length === 0 ? (
-                <tr><td colSpan={7} className="text-center text-muted py-4">No payroll records found.</td></tr>
+                <tr><td colSpan={8} className="text-center text-muted py-4">No payroll records found.</td></tr>
               ) : (
                 payrollsValue.map((p, idx) => (
                   <tr key={p.id}>
@@ -130,14 +122,12 @@ export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, Filt
                     </td>
                     <td>
                       <button
-                          className="btn btn-success"
-                          onClick={() =>
-                              handlePayment(p)
-                          }
+                        className="btn btn-success"
+                        onClick={() => handlePayment(p)}
                       >
-                          Pay Salary
+                        Pay Salary
                       </button>
-                  </td>
+                    </td>
                   </tr>
                 ))
               )}

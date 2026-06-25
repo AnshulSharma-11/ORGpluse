@@ -30,8 +30,11 @@ export default function Combinelogin() {
         >
           Employee Login
         </button>
+        
       </div>
+      
     </div>
+    
   );
 }
 

@@ -312,3 +312,4 @@ body { background: var(--body-bg); font-family: 'Segoe UI', sans-serif; }
 }
 .user-navbar .nav-links a:hover,
 .user-navbar .nav-links a.active { background: rgba(255,255,255,0.1); color: #fff; }
+

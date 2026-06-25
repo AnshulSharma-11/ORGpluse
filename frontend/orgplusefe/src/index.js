@@ -127,7 +127,7 @@ let router = createBrowserRouter([
       <div style={{ minHeight:'100vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:12, fontFamily:'sans-serif', color:'#64748b' }}>
         <i className="bi bi-exclamation-circle" style={{ fontSize:'3rem', color:'#cbd5e1' }}></i>
         <h2 style={{ margin:0, color:'#0f172a' }}>404 — Page Not Found</h2>
-        <a href="/admin/login" style={{ color:'#2563eb', textDecoration:'none', fontWeight:600 }}>← Back to Login</a>
+        <a href="/combinelogin" style={{ color:'#2563eb', textDecoration:'none', fontWeight:600 }}>← Back to Login</a>
       </div>
     ),
   },

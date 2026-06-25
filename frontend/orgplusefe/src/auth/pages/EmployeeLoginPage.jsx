@@ -72,7 +72,7 @@ function LoginForm({ onSwitch }) {
         </div>
         <div className="mb-4">
           <label className="form-label" style={labelStyle}>Password</label>
-          <input type="password" className={`form-control ${errors.password?'is-invalid':''}`} style={inputStyle} placeholder="••••••••" {...register('password',{ required:'Password is required' })} />
+          <input type="password" className={`form-control ${errors.password?'is-invalid':''}`} style={inputStyle} placeholder="enter password" {...register('password',{ required:'Password is required' })} />
           {errors.password && <div className="invalid-feedback">{errors.password.message}</div>}
         </div>
         <button className="btn w-100" style={{ borderRadius:9, padding:'10px', fontWeight:600, background:'#7c3aed', color:'#fff', border:'none' }} disabled={loading}>
@@ -82,6 +82,10 @@ function LoginForm({ onSwitch }) {
       <p style={{ marginTop:20, fontSize:'0.85rem', textAlign:'center', color:'#64748b' }}>
         New employee? <button onClick={onSwitch} style={{ ...linkBtnStyle, color:'#7c3aed' }}>Register here</button>
       </p>
+       <div style={{ minHeight:'10vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:12, fontFamily:'sans-serif', color:'#64748b' }}>
+        
+        <a href="/combinelogin" style={{ color:'#2563eb', textDecoration:'none', fontWeight:600 }}>← Back to Rolles</a>
+      </div>
     </>
   );
 }
@@ -146,6 +150,10 @@ function RegisterForm({ onSwitch }) {
       <p style={{ marginTop:20, fontSize:'0.85rem', textAlign:'center', color:'#64748b' }}>
         Already registered? <button onClick={onSwitch} style={{ ...linkBtnStyle, color:'#7c3aed' }}>Sign in</button>
       </p>
+       <div style={{ minHeight:'10vh', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:12, fontFamily:'sans-serif', color:'#64748b' }}>
+        
+        <a href="/combinelogin" style={{ color:'#2563eb', textDecoration:'none', fontWeight:600 }}>← Back to Rolles</a>
+      </div>
     </>
   );
 }

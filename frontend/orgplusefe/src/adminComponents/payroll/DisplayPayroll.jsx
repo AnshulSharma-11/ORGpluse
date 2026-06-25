@@ -30,12 +30,12 @@ export default function DisplayPayroll({ payrollsValue, onDelete, onFilter, Filt
     const monthLabel = `${MONTH_NAMES[payroll.month] || payroll.month} ${payroll.year}`;
 
     const options = {
-      key: "rzp_test_T5VyQJmuE0197k",           // ← replace with your Razorpay test key
+      key: "rzp_test_keyid",
       amount: amountInPaise,
       currency: "INR",
       name: "ORGpluse Payroll",
       description: `Salary for ${employeeName} — ${monthLabel}`,
-      image: "",                        // optional: your logo URL
+      image: "",                  
       prefill: {
         name: adminUser ? `${adminUser.firstName} ${adminUser.lastName}` : '',
         email: adminUser?.email || '',
